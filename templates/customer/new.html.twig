@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Customer{% endblock %}
+
+{% block body %}
+    <a href="{{ path('customer_index') }}"><button class="btn btn-primary mb-5">back to list</button></a>
+    <h1>Create new Customer</h1>
+    <div class="jumbotron jumbotron-sm">
+        <div class="container-sm">
+            {{ include('customer/_form.html.twig') }}
+        </div>
+    </div>
+
+
+{% endblock %}

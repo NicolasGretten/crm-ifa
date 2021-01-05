@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Company;
 use App\Entity\Customer;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
@@ -33,6 +34,8 @@ class CompanyFixtures extends Fixture
                 $customer[$j]->setLastName($faker->lastName);
                 $customer[$j]->setAccess(false);
                 $customer[$j]->setEmailAddress($faker->email);
+                $customer[$j]->setCreatedAt(new DateTime);
+                $customer[$j]->setUpdatedAt(new DateTime);
                 $manager->persist($customer[$j]);
             }
         }
