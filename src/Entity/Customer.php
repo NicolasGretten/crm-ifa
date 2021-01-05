@@ -20,17 +20,17 @@ class Customer
     /**
      * @ORM\ManyToOne(targetEntity=Company::class)
      */
-    private $company_id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    private $company;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $first_name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $last_name;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -47,26 +47,14 @@ class Customer
         return $this->id;
     }
 
-    public function getCompanyId(): ?Company
+    public function getCompany(): ?Company
     {
-        return $this->company_id;
+        return $this->company;
     }
 
-    public function setCompanyId(?Company $company_id): self
+    public function setCompany(?Company $company): self
     {
-        $this->company_id = $company_id;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+        $this->company = $company;
 
         return $this;
     }
@@ -79,6 +67,18 @@ class Customer
     public function setFirstName(string $first_name): self
     {
         $this->first_name = $first_name;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->last_name;
+    }
+
+    public function setLastName(string $last_name): self
+    {
+        $this->last_name = $last_name;
 
         return $this;
     }
