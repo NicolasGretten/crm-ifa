@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CompanyRepository::class)
+ * @method static all()
  */
 class Company
 {

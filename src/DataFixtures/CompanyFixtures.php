@@ -18,7 +18,7 @@ class CompanyFixtures extends Fixture
         for ($i = 0; $i < 5; $i++) {
             $company[$i] = new Company();
             $company[$i]->setName($faker->company);
-            $company[$i]->setAddress($faker->streetName);
+            $company[$i]->setAddress($faker->streetAddress);
             $company[$i]->setCity($faker->city);
             $company[$i]->setZipCode($faker->postcode);
             $company[$i]->setEmailAddress($faker->email);
