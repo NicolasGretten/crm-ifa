@@ -28,7 +28,6 @@ final class Version20210105151015 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE customer DROP FOREIGN KEY FK_81398E09979B1AD6');
-        $this->addSql('DROP TABLE company');
         $this->addSql('DROP TABLE customer');
     }
 }
