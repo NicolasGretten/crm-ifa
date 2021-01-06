@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
+use App\Entity\User;
 use App\Form\CustomerType;
 use App\Repository\CustomerRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,8 +42,13 @@ class CustomerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $customer->setCreatedAt(new DateTime());
+            $customer->setUpdatedAt(new DateTime());
             $entityManager->persist($customer);
             $entityManager->flush();
+            if($customer->getAccess() == true) {
+                $this->create($customer->getFirstName(), $customer->getLastName(), $customer);
+            }
 
             return $this->redirectToRoute('customer_index');
         }
@@ -71,7 +78,12 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $this->getDoctrine()->getManager()->flush();
+
+            if ($customer->getAccess() === true) {
+                $this->create($customer->getFirstName(), $customer->getLastName(), $customer);
+            }
 
             return $this->redirectToRoute('customer_index');
         }
@@ -94,5 +106,23 @@ class CustomerController extends AbstractController
         }
 
         return $this->redirectToRoute('customer_index');
+    }
+
+    /**
+     * @param string $firstName
+     * @param string $lastName
+     * @param Customer|null $customer
+     */
+    public function create(string $firstName, string $lastName, ?Customer $customer)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $user = new User();
+        $user->setUsername($firstName . '.' . $lastName);
+        $user->setPassword($firstName . '.' . $lastName);
+        $user->setCustomer($customer);
+        $user->setCreatedAt(new DateTime());
+        $user->setUpdatedAt(new DateTime());
+        $manager->persist($user);
+        $manager->flush();
     }
 }

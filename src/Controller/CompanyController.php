@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\Customer;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,8 +60,13 @@ class CompanyController extends AbstractController
      */
     public function show(Company $company): Response
     {
+        $customers = $this->getDoctrine()
+            ->getRepository(Customer::class)
+            ->findBy(['company' => $company]);
+
         return $this->render('company/show.html.twig', [
             'company' => $company,
+            'customers' => $customers
         ]);
     }
 
