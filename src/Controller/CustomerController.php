@@ -11,12 +11,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/customer")
  */
 class CustomerController extends AbstractController
 {
+     private $passwordEncoder;
+
+     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+     {
+         $this->passwordEncoder = $passwordEncoder;
+     }
+
     /**
      * @Route("/", name="customer_index", methods={"GET"})
      * @param CustomerRepository $customerRepository
@@ -47,7 +55,7 @@ class CustomerController extends AbstractController
             $entityManager->persist($customer);
             $entityManager->flush();
             if($customer->getAccess() == true) {
-                $this->create($customer->getFirstName(), $customer->getLastName(), $customer);
+                $this->create($customer->getFirstName(), $customer->getLastName(), $customer->getEmailAddress(), $customer);
             }
 
             return $this->redirectToRoute('customer_index');
@@ -82,7 +90,7 @@ class CustomerController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             if ($customer->getAccess() === true) {
-                $this->create($customer->getFirstName(), $customer->getLastName(), $customer);
+                $this->create($customer->getFirstName(), $customer->getLastName(),$customer->getEmailAddress(), $customer);
             }
 
             return $this->redirectToRoute('customer_index');
@@ -111,14 +119,18 @@ class CustomerController extends AbstractController
     /**
      * @param string $firstName
      * @param string $lastName
+     * @param string $email
      * @param Customer|null $customer
      */
-    public function create(string $firstName, string $lastName, ?Customer $customer)
+    public function create(string $firstName, string $lastName, string $email,  ?Customer $customer)
     {
         $manager = $this->getDoctrine()->getManager();
         $user = new User();
-        $user->setUsername($firstName . '.' . $lastName);
-        $user->setPassword($firstName . '.' . $lastName);
+        $user->setEmail($email);
+        $user->setPassword($this->passwordEncoder->encodePassword(
+                         $user,
+                        strtolower($firstName . '.' . $lastName)
+        ));
         $user->setCustomer($customer);
         $user->setCreatedAt(new DateTime());
         $user->setUpdatedAt(new DateTime());

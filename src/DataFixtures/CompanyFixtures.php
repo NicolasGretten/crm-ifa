@@ -25,19 +25,6 @@ class CompanyFixtures extends Fixture
             $company[$i]->setEmailAddress($faker->email);
             $company[$i]->setPhoneNumber($faker->phoneNumber);
             $manager->persist($company[$i]);
-
-            $customer = array();
-            for ($j = 0; $j < 2; $j++) {
-                $customer[$j] = new Customer();
-                $customer[$j]->setCompany($company[$i]);
-                $customer[$j]->setFirstName($faker->firstName);
-                $customer[$j]->setLastName($faker->lastName);
-                $customer[$j]->setAccess(false);
-                $customer[$j]->setEmailAddress($faker->email);
-                $customer[$j]->setCreatedAt(new DateTime);
-                $customer[$j]->setUpdatedAt(new DateTime);
-                $manager->persist($customer[$j]);
-            }
         }
 
         $manager->flush();

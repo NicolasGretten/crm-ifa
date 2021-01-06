@@ -17,12 +17,16 @@ class CustomerFixtures extends Fixture
 
         $faker = Faker\Factory::create('fr_FR');
 
+        $company = $manager->getRepository(Company::class)
+            ->findAll();
+        $min = reset($company);
+        $max = end($company);
+
         $customer = array();
-        for ($j = 0; $j < 2; $j++) {
+        for ($j = 0; $j < 20; $j++) {
+            $randomCompany = $manager->getRepository(Company::class)->find(mt_rand($min->getId(), $max->getId()));
             $customer[$j] = new Customer();
-            $customer[$j]->setCompany($this->getDoctrine()
-                ->getRepository(Company::class)
-                ->find(mt_rand(0,5)));
+            $customer[$j]->setCompany($randomCompany);
             $customer[$j]->setFirstName($faker->firstName);
             $customer[$j]->setLastName($faker->lastName);
             $customer[$j]->setAccess(false);
