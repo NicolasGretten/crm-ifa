@@ -6,6 +6,7 @@ use App\Entity\Demand;
 use App\Form\DemandType;
 use App\Repository\DemandRepository;
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,8 @@ class DemandController extends AbstractController
 {
     /**
      * @Route("/", name="demand_index", methods={"GET"})
+     *
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(DemandRepository $demandRepository): Response
     {
@@ -28,6 +31,8 @@ class DemandController extends AbstractController
 
     /**
      * @Route("/new", name="demand_new", methods={"GET","POST"})
+     *
+     * @IsGranted("ROLE_USER")
      */
     public function new(Request $request): Response
     {

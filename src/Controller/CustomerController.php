@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/customer")
@@ -29,6 +30,8 @@ class CustomerController extends AbstractController
      * @Route("/", name="customer_index", methods={"GET"})
      * @param CustomerRepository $customerRepository
      * @return Response
+     *
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(CustomerRepository $customerRepository): Response
     {
@@ -127,10 +130,8 @@ class CustomerController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $user = new User();
         $user->setEmail($email);
-        $user->setPassword($this->passwordEncoder->encodePassword(
-                         $user,
-                        strtolower($firstName . '.' . $lastName)
-        ));
+        $user->setPassword($this->passwordEncoder->encodePassword($user, strtolower($firstName . '.' . $lastName)));
+        $user->setRoles(["ROLE_USER"]);
         $user->setCustomer($customer);
         $user->setCreatedAt(new DateTime());
         $user->setUpdatedAt(new DateTime());

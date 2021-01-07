@@ -13,13 +13,15 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('username')
-            ->add('password')
-            ->add('customer', EntityType::class, [
-                'class' => Customer::class,
-                'choice_label' => 'last_name',
-            ]);
+//        $builder
+//            ->add('email')
+//            ->add('roles')
+//            ->add('password')
+//            ->add('created_at')
+//            ->add('updated_at')
+//            ->add('customer', EntityType::class, [
+//                'class' => Customer::class,
+//                'choice_label' => 'email_address']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -8,28 +8,36 @@
         <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/brand.min.css">
         <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/flag.min.css">
         {% block stylesheets %}{% endblock %}
+        <style type="text/css">
+            a:hover {
+                text-decoration: none;
+            }
+        </style>
     </head>
     <body class="c-app">
         <div class="c-sidebar-fixed bg-white border-right">
             <div class="c-sidebar-nav-item">
                 <nav class="navbar">
                     <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/"> <i class="cil-home"></i>  Home</a>
+                        <li class="nav-item m-auto">
+                            <a class="nav-link active" href="/"><i class="cib-hubspot font-4xl"></i> </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item m-auto">
+                            <a class="nav-link active" href="/"><i class="cil-home font-2xl"></i></a>
+                        </li>
+                        <li class="nav-item m-auto">
                             <a class="nav-link" href="/company">Companies</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item m-auto">
                             <a class="nav-link" href="/customer">Customers</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item m-auto">
                             <a class="nav-link" href="/user">Users</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item m-auto">
                             <a class="nav-link" href="/demand">Demands</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item m-auto">
                             <a class="nav-link" href="/ticket">Tickets</a>
                         </li>
                     </ul>

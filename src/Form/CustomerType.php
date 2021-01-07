@@ -17,11 +17,10 @@ class CustomerType extends AbstractType
             ->add('first_name')
             ->add('last_name')
             ->add('email_address')
-            ->add('access')
             ->add('company', EntityType::class, [
                 'class' => Company::class,
                 'choice_label' => 'name'])
-        ;
+            ->add('access');
     }
 
     public function configureOptions(OptionsResolver $resolver)

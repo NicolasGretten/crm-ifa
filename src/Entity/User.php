@@ -36,7 +36,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Customer::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $customer;
 
@@ -84,7 +84,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }

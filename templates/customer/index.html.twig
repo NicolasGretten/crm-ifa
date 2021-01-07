@@ -5,8 +5,9 @@
 {% block body %}
     <div class="container-fluid">
         <div class="alert alert-primary" role="alert">
-            <h3 class="">Add a new customer</h3>
-            <a href="{{ path('customer_new') }}"><button type="button" class="btn btn-primary btn-md"> <i class="cil-user-plus"></i>  Create new</button></a>
+            <div class="col-4 m-md-auto">
+                <a href="{{ path('customer_new') }}"><button type="button" class="btn btn-ghost-primary btn-block btn-lg">Create new customer</button></a>
+            </div>
         </div>
         <h1 class="mb-3">Customers</h1>
         <table class="table table-light table-striped border shadow p-3 mb-5 bg-white rounded">
