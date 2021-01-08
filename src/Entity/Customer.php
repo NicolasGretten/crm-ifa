@@ -19,6 +19,7 @@ class Customer
 
     /**
      * @ORM\ManyToOne(targetEntity=Company::class)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $company;
 

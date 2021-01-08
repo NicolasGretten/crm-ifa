@@ -3,9 +3,21 @@
 {% block title %}New Ticket{% endblock %}
 
 {% block body %}
-    <h1>Create new Ticket</h1>
+    {% if  app.request.get('id') is null %}
+        <a href="{{ path('ticket_index') }}"><button class="btn btn-ghost-primary mb-3"><< Back to list</button></a>
+    {% else %}
+        <a href="{{ path('demand_index') }}"><button class="btn btn-ghost-primary mb-3"><< Back to list</button></a>
+    {% endif %}
 
-    {{ include('ticket/_form.html.twig') }}
 
-    <a href="{{ path('ticket_index') }}">back to list</a>
+    <div class="container">
+        <div class="col-8 m-auto border p-3 shadow-lg p-5 mb-5 bg-white rounded">
+            {% if  app.request.get('id') is null %}
+                <h1 class="mb-5">Create a new Ticket</h1>
+            {% else %}
+                <h1 class="mb-5">Create a new Ticket for demand n°{{ app.request.get('id') }}</h1>
+            {% endif %}
+            {{ include('ticket/_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}

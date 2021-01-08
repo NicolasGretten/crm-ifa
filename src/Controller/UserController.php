@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\User;
 use App\Form\User1Type;
 use App\Repository\UserRepository;
@@ -85,6 +86,11 @@ class UserController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $customerId = $user->getCustomer();
+            $customerToUpdate = $this->getDoctrine()
+                ->getRepository(Customer::class)
+                ->findBy(['id' => $customerId]);
+            $customerToUpdate[0]->setAccess(false);
             $entityManager->remove($user);
             $entityManager->flush();
         }

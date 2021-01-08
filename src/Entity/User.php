@@ -35,8 +35,8 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=Customer::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToOne(targetEntity=Customer::class)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $customer;
 

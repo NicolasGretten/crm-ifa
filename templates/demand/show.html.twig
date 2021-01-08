@@ -3,40 +3,151 @@
 {% block title %}Demand{% endblock %}
 
 {% block body %}
-    <h1>Demand</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('demand_index') }}">
+            <button class="btn btn-ghost-primary mb-3"><< Back to list</button>
+        </a>
+        <div class="alert alert-primary mb-5" role="alert">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <a href="{{ path('demand_admin_edit', {'id': demand.id}) }}">
+                        <button class="btn btn-ghost-primary btn-block btn-lg"><i class="cil-pencil"></i>
+                        </button>
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="{{ path('ticket_new_from_demand', {'id': demand.id}) }}">
+                        <button class="btn btn-ghost-info btn-block btn-lg"><i class="cil-plus font-weight-bold"></i>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('home') }}">
+            <button class="btn btn-ghost-primary mb-3"><< Back to list</button>
+        </a>
+        <div class="alert alert-primary mb-5" role="alert">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <a href="{{ path('demand_edit', {'id': demand.id}) }}">
+                        <button type="button" class="btn btn-ghost-primary btn-block btn-lg"><i class="cil-pencil"></i>
+                        </button>
+                    </a>
+                </div>
+                <div class="col-4">
+                    {{ include('demand/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="container mb-5">
+        <div class="col-8 m-auto border p-3 shadow-lg p-3 mb-5 bg-white rounded">
+            <h1 class="mb-3">Demand</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ demand.id }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ demand.content }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ demand.status }}</td>
-            </tr>
-            <tr>
-                <th>Views</th>
-                <td>{{ demand.views ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ demand.createdAt ? demand.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Updated_at</th>
-                <td>{{ demand.updatedAt ? demand.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ demand.id }}</td>
+                </tr>
+                <tr>
+                    <th>Content</th>
+                    <td>{{ demand.content }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ demand.status }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ demand.user.email }}</td>
+                </tr>
+                <tr>
+                    <th>Views</th>
+                    <td>{{ demand.views ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <th>Created_at</th>
+                    <td>{{ demand.createdAt ? demand.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Updated_at</th>
+                    <td>{{ demand.updatedAt ? demand.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr class="bg-primary">
+            {% if is_granted('ROLE_ADMIN') %}
+                <h1 class="mb-3">User's demand informations</h1>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ customer.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>First name</th>
+                        <td>{{ customer.firstName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Last name</th>
+                        <td>{{ customer.lastName }}</td>
+                    </tr>
+                    <tr>
+                        <th>email</th>
+                        <td>{{ customer.emailAddress }}</td>
+                    </tr>
+                    {% if customer.company == null %}
+                        <tr>
+                            <th>Company name</th>
+                            <td>This user have no company</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <th>Company name</th>
+                            <td>{{ customer.company.name }}</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+                <hr class="bg-primary">
+                <h1 class="mb-5">Ticket's demand</h1>
 
-    <a href="{{ path('demand_index') }}">back to list</a>
-
-    <a href="{{ path('demand_edit', {'id': demand.id}) }}">edit</a>
-
-    {{ include('demand/_delete_form.html.twig') }}
+                <table class="table table-light table-striped border shadow p-3 mb-5 bg-white rounded">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ticket Content</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ticket in tickets %}
+                        <tr>
+                            <td>{{ ticket.id }}</td>
+                            <td>{{ ticket.content }}</td>
+                            <td>{{ ticket.createdAt ? ticket.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                            <td>{{ ticket.updatedAt ? ticket.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                            <td>
+                                <a href="{{ path('ticket_show', {'id': ticket.id}) }}">show</a>
+                            </td>
+                            <td>
+                                <a href="{{ path('ticket_edit', {'id': ticket.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">no tickets open for this demand</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

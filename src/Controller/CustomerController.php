@@ -95,6 +95,19 @@ class CustomerController extends AbstractController
             if ($customer->getAccess() === true) {
                 $this->create($customer->getFirstName(), $customer->getLastName(),$customer->getEmailAddress(), $customer);
             }
+            else if($customer->getAccess() === false) {
+                $userToDelete = $this->getDoctrine()
+                    ->getRepository(User::class)
+                    ->findBy(['customer' => $customer->getId()]);
+
+                if(!empty($userToDelete)) {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->remove($userToDelete[0]);
+                    $entityManager->flush();
+                }
+
+            }
+
 
             return $this->redirectToRoute('customer_index');
         }

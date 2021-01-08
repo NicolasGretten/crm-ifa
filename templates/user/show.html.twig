@@ -33,6 +33,13 @@
                             <th>Roles</th>
                             <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                         </tr>
+                        {% if user.customer == null %}
+                            <th>Name</th>
+                            <td>this user account is not related to a customer</td>
+                        {% else %}
+                            <th>Name</th>
+                            <td>{{ user.customer.firstName}} {{ user.customer.lastName}}</td>
+                        {% endif %}
                         <tr>
                             <th>Created_at</th>
                             <td>{{ user.createdAt ? user.createdAt|date('d/m/Y H:i:s') : '' }}</td>

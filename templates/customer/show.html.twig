@@ -26,17 +26,28 @@
                         <td>{{ customer.id }}</td>
                     </tr>
                     <tr>
-                        <th>First_name</th>
+                        <th>First name</th>
                         <td>{{ customer.firstName }}</td>
                     </tr>
                     <tr>
-                        <th>Last_name</th>
+                        <th>Last name</th>
                         <td>{{ customer.lastName }}</td>
                     </tr>
                     <tr>
-                        <th>Email_address</th>
+                        <th>Email address</th>
                         <td>{{ customer.emailAddress }}</td>
                     </tr>
+                    {% if customer.company == null %}
+                    <tr>
+                        <th>Company name</th>
+                        <td>This user have no company</td>
+                    </tr>
+                        {% else %}
+                            <tr>
+                                <th>Company name</th>
+                                <td>{{ customer.company.name }}</td>
+                            </tr>
+                    {% endif %}
                     <tr>
                         <th>Access</th>
                         <td>{{ customer.access ? 'Yes' : 'No' }}</td>

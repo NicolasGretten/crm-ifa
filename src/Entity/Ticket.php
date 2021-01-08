@@ -19,6 +19,7 @@ class Ticket
 
     /**
      * @ORM\ManyToOne(targetEntity=Demand::class)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $demand;
 

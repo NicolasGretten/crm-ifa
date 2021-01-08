@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Demand;
 use App\Entity\Ticket;
+use App\Form\Ticket2Type;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,6 +39,8 @@ class TicketController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $ticket->setCreatedAt(new DateTime());
+            $ticket->setUpdatedAt(new DateTime());
             $entityManager->persist($ticket);
             $entityManager->flush();
 
@@ -53,8 +58,18 @@ class TicketController extends AbstractController
      */
     public function show(Ticket $ticket): Response
     {
+
+        $demand = $this->getDoctrine()
+            ->getRepository(Demand::class)
+            ->findby(['id' => $ticket->getDemand()]);
+
+        if ($demand == false) {
+            $demand[0] = false;
+        }
+
         return $this->render('ticket/show.html.twig', [
             'ticket' => $ticket,
+            'demand'=> $demand[0]
         ]);
     }
 
@@ -63,11 +78,14 @@ class TicketController extends AbstractController
      */
     public function edit(Request $request, Ticket $ticket): Response
     {
-        $form = $this->createForm(TicketType::class, $ticket);
+        $form = $this->createForm(Ticket2Type::class, $ticket);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $ticket->setUpdatedAt(new DateTime());
+            $entityManager->persist($ticket);
+            $entityManager->flush();
 
             return $this->redirectToRoute('ticket_index');
         }

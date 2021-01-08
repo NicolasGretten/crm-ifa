@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\Demand;
+use App\Entity\Ticket;
+use App\Entity\User;
+use App\Form\AdminDemandType;
 use App\Form\DemandType;
+use App\Form\Ticket2Type;
 use App\Repository\DemandRepository;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -40,14 +45,23 @@ class DemandController extends AbstractController
         $form = $this->createForm(DemandType::class, $demand);
         $form->handleRequest($request);
 
+
+
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($this->getUser()->getId());
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $demand->setStatus('En attente');
+            $demand->setUser($user);
+            $demand->setViews(false);
             $demand->setUpdatedAt(new DateTime());
             $demand->setcreatedAt(new DateTime());
             $entityManager->persist($demand);
             $entityManager->flush();
 
-            return $this->redirectToRoute('demand_index');
+            return $this->redirectToRoute('email');
         }
 
         return $this->render('demand/new.html.twig', [
@@ -61,8 +75,22 @@ class DemandController extends AbstractController
      */
     public function show(Demand $demand): Response
     {
+        $tickets = $this->getDoctrine()
+            ->getRepository(Ticket::class)
+            ->findBy(['demand' => $demand->getId()]);
+
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findBy(['id' => $demand->getUser()]);
+
+        $customer = $this->getDoctrine()
+            ->getRepository(Customer::class)
+            ->findBy(['id' => $user[0]->getCustomer()->getId()]);
+
         return $this->render('demand/show.html.twig', [
             'demand' => $demand,
+            'customer' => $customer[0],
+            'tickets' => $tickets,
         ]);
     }
 
@@ -75,7 +103,33 @@ class DemandController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $demand->setUpdatedAt(new DateTime());
+            $entityManager->persist($demand);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('demand/edit.html.twig', [
+            'demand' => $demand,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/admin_edit", name="demand_admin_edit", methods={"GET","POST"})
+     */
+    public function adminEdit(Request $request, Demand $demand): Response
+    {
+        $form = $this->createForm(AdminDemandType::class, $demand);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $demand->setViews(true);
+            $entityManager->persist($demand);
+            $entityManager->flush();
 
             return $this->redirectToRoute('demand_index');
         }
@@ -99,4 +153,34 @@ class DemandController extends AbstractController
 
         return $this->redirectToRoute('demand_index');
     }
+
+    /**
+     * @Route("/{id}/ticket", name="ticket_new_from_demand")
+     */
+    public function newTicket(Request $request, int $id):Response
+    {
+        $ticket = new Ticket();
+        $form = $this->createForm(Ticket2Type::class, $ticket);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $demand = $this->getDoctrine()
+                ->getRepository(Demand::class)
+                ->find($id);
+            $entityManager = $this->getDoctrine()->getManager();
+            $ticket->setDemand($demand);
+            $ticket->setCreatedAt(new DateTime());
+            $ticket->setUpdatedAt(new DateTime());
+            $entityManager->persist($ticket);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('ticket_index');
+        }
+
+        return $this->render('ticket/new.html.twig', [
+            'ticket' => $ticket,
+            'form' => $form->createView(),
+        ]);
+    }
+
 }
