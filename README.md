@@ -14,7 +14,7 @@ Pour comprendre et mettre en place l'envoie d'e-mail avec une adresse gmail pers
 
 L'email du sender est à renseigner pour l'envoie des notifications.
 
-##Fixtures
+## Fixtures
 
 Au load des fixtures, la base de données aura comme données test : 
 - 5 entreprises 
@@ -23,7 +23,7 @@ Au load des fixtures, la base de données aura comme données test :
 - 1 compte utilisateurs qui est le client "test' : john@doe.com, mot de passe : john.doe
 - 1 demande effectuer par le compte utilisateur test
 
-##Fonctionnalités
+## Fonctionnalités
 
 - Page d'accueil différente pour les Admins et les utilisateurs
 - CRUD sur les entreprises, clients, utilisateurs, demandes et tickets
