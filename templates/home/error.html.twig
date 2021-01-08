@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ error }}{% endblock %}
+
+{% block body %}
+            <div class="alert alert-danger mt-5 mb-5" role="alert">
+                <div class="col-4 m-md-auto">
+                    <a href="{{ path('home') }}"><button type="button" class="btn btn-outline-danger btn-block btn-lg">Sorry, {{ error }}</button></a>
+                </div>
+            </div>
+
+{% endblock %}

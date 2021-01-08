@@ -8,8 +8,6 @@ use App\Entity\Demand;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
@@ -61,21 +59,11 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/email", name="email")
+     * @Route("/error-email", name="error_email")
      */
-    public function sendEmail(MailerInterface $mailer)
-    {
-
-        $admin = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findUsersByRole('ROLE_ADMIN');
-
-        $email = (new Email())
-            ->to($admin[0]->getEmail())
-            ->subject('A new demand have been added')
-            ->text('A new demand have been added by a user, go check-it !');
-
-        $mailer->send($email);
-        return $this->redirectToRoute('home');
+    public function errorEmail(){
+        return $this->render('home/error.html.twig', [
+            'error' => 'email not send'
+        ]);
     }
 }

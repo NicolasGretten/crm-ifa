@@ -8,6 +8,7 @@ use App\Form\Ticket2Type;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,9 @@ class TicketController extends AbstractController
 {
     /**
      * @Route("/", name="ticket_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param TicketRepository $ticketRepository
+     * @return Response
      */
     public function index(TicketRepository $ticketRepository): Response
     {
@@ -30,6 +34,9 @@ class TicketController extends AbstractController
 
     /**
      * @Route("/new", name="ticket_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -55,6 +62,9 @@ class TicketController extends AbstractController
 
     /**
      * @Route("/{id}", name="ticket_show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Ticket $ticket
+     * @return Response
      */
     public function show(Ticket $ticket): Response
     {
@@ -75,6 +85,10 @@ class TicketController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="ticket_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
+     * @param Ticket $ticket
+     * @return Response
      */
     public function edit(Request $request, Ticket $ticket): Response
     {
@@ -98,6 +112,10 @@ class TicketController extends AbstractController
 
     /**
      * @Route("/{id}", name="ticket_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
+     * @param Ticket $ticket
+     * @return Response
      */
     public function delete(Request $request, Ticket $ticket): Response
     {

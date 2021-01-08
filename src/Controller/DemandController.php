@@ -15,6 +15,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,10 +25,19 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DemandController extends AbstractController
 {
+    private $mailer;
+
+    public function __construct(MailerInterface $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
     /**
      * @Route("/", name="demand_index", methods={"GET"})
      *
      * @IsGranted("ROLE_ADMIN")
+     * @param DemandRepository $demandRepository
+     * @return Response
      */
     public function index(DemandRepository $demandRepository): Response
     {
@@ -38,6 +50,8 @@ class DemandController extends AbstractController
      * @Route("/new", name="demand_new", methods={"GET","POST"})
      *
      * @IsGranted("ROLE_USER")
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -60,7 +74,9 @@ class DemandController extends AbstractController
             $entityManager->persist($demand);
             $entityManager->flush();
 
-            return $this->redirectToRoute('email');
+            $this->sendEmail($this->mailer);
+
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('demand/new.html.twig', [
@@ -71,6 +87,8 @@ class DemandController extends AbstractController
 
     /**
      * @Route("/{id}", name="demand_show", methods={"GET"})
+     * @param Demand $demand
+     * @return Response
      */
     public function show(Demand $demand): Response
     {
@@ -95,6 +113,9 @@ class DemandController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="demand_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Demand $demand
+     * @return Response
      */
     public function edit(Request $request, Demand $demand): Response
     {
@@ -118,6 +139,9 @@ class DemandController extends AbstractController
 
     /**
      * @Route("/{id}/admin_edit", name="demand_admin_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Demand $demand
+     * @return Response
      */
     public function adminEdit(Request $request, Demand $demand): Response
     {
@@ -141,6 +165,10 @@ class DemandController extends AbstractController
 
     /**
      * @Route("/{id}", name="demand_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_USER")
+     * @param Request $request
+     * @param Demand $demand
+     * @return Response
      */
     public function delete(Request $request, Demand $demand): Response
     {
@@ -155,6 +183,10 @@ class DemandController extends AbstractController
 
     /**
      * @Route("/{id}/ticket", name="ticket_new_from_demand")
+     * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function newTicket(Request $request, int $id): Response
     {
@@ -180,6 +212,25 @@ class DemandController extends AbstractController
             'ticket' => $ticket,
             'form' => $form->createView(),
         ]);
+    }
+
+    public function sendEmail(MailerInterface $mailer)
+    {
+
+        $admin = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findUsersByRole('ROLE_ADMIN');
+
+        $email = (new Email())
+            ->to($admin[0]->getEmail())
+            ->subject('A new demand have been added')
+            ->text('A new demand have been added by a user, go check-it !');
+
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            return $this->redirectToRoute('error_email');
+        }
     }
 
 }

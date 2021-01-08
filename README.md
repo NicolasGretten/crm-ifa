@@ -35,3 +35,4 @@ Au load des fixtures, la base de données aura comme données test :
 - Protection des routes par rôles 
 - Listener pour rediriger vers la page d'accueil lorsque qu'une AccessDeniedexception est Throw
 - Envoi d'e-mails a la création de la demande sur l'adresse e-mail de l'admin (crm-ifa@yopmail.com) consultable sur Yopmail.com
+- Notification des demandes sur la page d'accueil pour l'administrateur, il doit changer leurs status pour pouvoir enlever la notification et informer l'utilisateur que sa demande a été vu par un admin en mettant à jour la colonne Views de No à Yes

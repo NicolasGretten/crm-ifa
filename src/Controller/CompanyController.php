@@ -6,6 +6,7 @@ use App\Entity\Company;
 use App\Entity\Customer;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,7 @@ class CompanyController extends AbstractController
      * @Route("/", name="company_index", methods={"GET"})
      * @param CompanyRepository $companyRepository
      * @return Response
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(CompanyRepository $companyRepository): Response
     {
@@ -32,6 +34,7 @@ class CompanyController extends AbstractController
      * @Route("/new", name="company_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -57,6 +60,7 @@ class CompanyController extends AbstractController
      * @Route("/{id}", name="company_show", methods={"GET"})
      * @param Company $company
      * @return Response
+     * @IsGranted("ROLE_ADMIN")
      */
     public function show(Company $company): Response
     {
@@ -75,6 +79,7 @@ class CompanyController extends AbstractController
      * @param Request $request
      * @param Company $company
      * @return Response
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Company $company): Response
     {
@@ -98,6 +103,7 @@ class CompanyController extends AbstractController
      * @param Request $request
      * @param Company $company
      * @return Response
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Company $company): Response
     {
