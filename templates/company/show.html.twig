@@ -4,57 +4,58 @@
 
 {% block body %}
     <div class="container-fluid justify-content-center">
-        <a href="{{ path('company_index') }}"><button class="btn btn-ghost-primary mb-3"><< Back to list</button></a>
-        <div class="alert alert-primary mb-5" role="alert">
+        <a href="{{ path('company_index') }}">
+            <button class="btn btn-ghost-primary mb-3"><< Back to list</button>
+        </a>
+        <div class="alert alert-primary m-auto col-8" role="alert">
             <div class="row justify-content-center">
                 <div class="col-4">
-                    <a href="{{ path('company_edit', {'id': company.id}) }}"><button type="button" class="btn btn-ghost-primary btn-block btn-lg"><i class="cil-pencil"></i></button></a>
+                    <a href="{{ path('company_edit', {'id': company.id}) }}">
+                        <button type="button" class="btn btn-ghost-primary btn-block btn-lg"><i class="cil-pencil"></i>
+                        </button>
+                    </a>
                 </div>
                 <div class="col-4">
                     {{ include('company/_delete_form.html.twig') }}
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container mt-5">
             <div class="col-8 m-auto border p-3 shadow-lg p-3 mb-5 bg-white rounded">
                 <h1 class="mb-5">Company</h1>
                 <table class="table mb-3">
                     <tbody>
-                        <tr>
-                            <th>Id</th>
-                            <td>{{ company.id }}</td>
-                        </tr>
-                        <tr>
-                            <th>Name</th>
-                            <td>{{ company.name }}</td>
-                        </tr>
-                        <tr>
-                            <th>Address</th>
-                            <td>{{ company.Address }}</td>
-                        </tr>
-                        <tr>
-                            <th>City</th>
-                            <td>{{ company.city }}</td>
-                        </tr>
-                        <tr>
-                            <th>Zip_code</th>
-                            <td>{{ company.zipCode }}</td>
-                        </tr>
-                        <tr>
-                            <th>Email_address</th>
-                            <td>{{ company.emailAddress }}</td>
-                        </tr>
-                        <tr>
-                            <th>Phone_number</th>
-                            <td>{{ company.phoneNumber }}</td>
-                        </tr>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ company.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ company.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ company.Address }}</td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td>{{ company.city }}</td>
+                    </tr>
+                    <tr>
+                        <th>Zip_code</th>
+                        <td>{{ company.zipCode }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email_address</th>
+                        <td>{{ company.emailAddress }}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone_number</th>
+                        <td>{{ company.phoneNumber }}</td>
+                    </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <hr class="mt-5 mb-5">
-        <div class="container mb-5">
-            <div class="col-8 m-auto border p-3 shadow-lg p-3 mb-5 bg-white rounded">
+                <hr class="bg-primary mb-5 mt-5">
                 <h1 class="mb-5">Customers of the company</h1>
                 <table class="table table-light table-striped border shadow p-3 mb-5 bg-white rounded">
                     <thead>
@@ -78,10 +79,12 @@
                                 <td>{{ customer.emailAddress }}</td>
                                 <td>{{ customer.access ? 'Yes' : 'No' }}</td>
                                 <td>
-                                    <a href="{{ path('customer_show', {'id': customer.id}) }}"><i class="cil-magnifying-glass"></i></a>
+                                    <a href="{{ path('customer_show', {'id': customer.id}) }}"><i
+                                                class="cil-magnifying-glass"></i></a>
                                 </td>
                                 <td>
-                                    <a href="{{ path('customer_edit', {'id': customer.id}) }}"><i class="cil-pencil"></i> </a>
+                                    <a href="{{ path('customer_edit', {'id': customer.id}) }}"><i
+                                                class="cil-pencil"></i> </a>
                                 </td>
                             </tr>
                         </a>
@@ -95,5 +98,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

@@ -4,14 +4,14 @@
 
 {% block body %}
     <a href="{{ path('user_index') }}"><button class="btn btn-ghost-primary mb-3"><< Back to list</button></a>
-    <div class="alert alert-primary mb-5" role="alert">
+    <div class="alert alert-primary col-8 m-auto" role="alert">
         <div class="row justify-content-center">
             <div class="col-4">
                 {{ include('user/_delete_form.html.twig') }}
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container mt-5">
         <div class="col-8 m-auto border p-3 shadow-lg p-3 mb-5 bg-white rounded">
             <h1 class="mb-5">Edit User</h1>
 

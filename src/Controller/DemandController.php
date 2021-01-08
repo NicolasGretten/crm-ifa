@@ -46,7 +46,6 @@ class DemandController extends AbstractController
         $form->handleRequest($request);
 
 
-
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->find($this->getUser()->getId());
@@ -145,7 +144,7 @@ class DemandController extends AbstractController
      */
     public function delete(Request $request, Demand $demand): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$demand->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $demand->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($demand);
             $entityManager->flush();
@@ -157,7 +156,7 @@ class DemandController extends AbstractController
     /**
      * @Route("/{id}/ticket", name="ticket_new_from_demand")
      */
-    public function newTicket(Request $request, int $id):Response
+    public function newTicket(Request $request, int $id): Response
     {
         $ticket = new Ticket();
         $form = $this->createForm(Ticket2Type::class, $ticket);

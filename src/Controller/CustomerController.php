@@ -19,12 +19,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class CustomerController extends AbstractController
 {
-     private $passwordEncoder;
+    private $passwordEncoder;
 
-     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-     {
-         $this->passwordEncoder = $passwordEncoder;
-     }
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
 
     /**
      * @Route("/", name="customer_index", methods={"GET"})
@@ -57,7 +57,7 @@ class CustomerController extends AbstractController
             $customer->setUpdatedAt(new DateTime());
             $entityManager->persist($customer);
             $entityManager->flush();
-            if($customer->getAccess() == true) {
+            if ($customer->getAccess() == true) {
                 $this->create($customer->getFirstName(), $customer->getLastName(), $customer->getEmailAddress(), $customer);
             }
 
@@ -93,14 +93,13 @@ class CustomerController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             if ($customer->getAccess() === true) {
-                $this->create($customer->getFirstName(), $customer->getLastName(),$customer->getEmailAddress(), $customer);
-            }
-            else if($customer->getAccess() === false) {
+                $this->create($customer->getFirstName(), $customer->getLastName(), $customer->getEmailAddress(), $customer);
+            } else if ($customer->getAccess() === false) {
                 $userToDelete = $this->getDoctrine()
                     ->getRepository(User::class)
                     ->findBy(['customer' => $customer->getId()]);
 
-                if(!empty($userToDelete)) {
+                if (!empty($userToDelete)) {
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->remove($userToDelete[0]);
                     $entityManager->flush();
@@ -123,7 +122,7 @@ class CustomerController extends AbstractController
      */
     public function delete(Request $request, Customer $customer): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$customer->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $customer->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($customer);
             $entityManager->flush();
@@ -138,7 +137,7 @@ class CustomerController extends AbstractController
      * @param string $email
      * @param Customer|null $customer
      */
-    public function create(string $firstName, string $lastName, string $email,  ?Customer $customer)
+    public function create(string $firstName, string $lastName, string $email, ?Customer $customer)
     {
         $manager = $this->getDoctrine()->getManager();
         $user = new User();

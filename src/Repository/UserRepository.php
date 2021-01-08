@@ -36,7 +36,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    public function userRegisteredSinceJanuary() : array
+    public function userRegisteredSinceJanuary(): array
     {
         $conn = $this->getEntityManager()->getConnection();
 

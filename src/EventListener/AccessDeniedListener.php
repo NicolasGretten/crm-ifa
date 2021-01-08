@@ -33,7 +33,7 @@ class AccessDeniedListener implements EventSubscriberInterface
     {
         $exception = $event->getThrowable();
         if (!$exception instanceof AccessDeniedException) {
-             return false;
+            return false;
         }
 
         $response = new RedirectResponse($this->router->generate('home'));

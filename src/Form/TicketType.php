@@ -18,20 +18,17 @@ class TicketType extends AbstractType
         $builder
             ->add('content')
             ->add('demand', EntityType::class, [
-                    'class' => Demand::class,
-                    'choice_label' =>function ($demand) {
-                        if (strlen($demand->getContent()) > 25)
-                        {
-                            $content =  substr($demand->getContent(), 0, 25)."...";
-                        }
-                        else
-                        {
-                            $content = $demand->getContent();
-                        }
-                        return 'Demand n°' . $demand->getId() . ',  preview content: ' . $content;
-                        },
-                    'required' => false
-                ],
+                'class' => Demand::class,
+                'choice_label' => function ($demand) {
+                    if (strlen($demand->getContent()) > 25) {
+                        $content = substr($demand->getContent(), 0, 25) . "...";
+                    } else {
+                        $content = $demand->getContent();
+                    }
+                    return 'Demand n°' . $demand->getId() . ',  preview content: ' . $content;
+                },
+                'required' => false
+            ],
             );
     }
 

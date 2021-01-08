@@ -17,10 +17,10 @@ class AdminDemandType extends AbstractType
         $builder
             ->add('status', ChoiceType::class, [
                 'choices' => [
-                    'Ouverte'=>'ouverte',
-                    'En cours'=>'En cours',
-                    'En attente'=>'En attente',
-                    'Fermée'=>'Fermée',
+                    'Ouverte' => 'ouverte',
+                    'En cours' => 'En cours',
+                    'En attente' => 'En attente',
+                    'Fermée' => 'Fermée',
                 ],
             ]);
     }

@@ -19,7 +19,7 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        if($this->getUser() !== null) {
+        if ($this->getUser() !== null) {
             $id = $this->getUser()->getId();
 
             $companies = $this->getDoctrine()

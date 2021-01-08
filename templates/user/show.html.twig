@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container-fluid justify-content-center">
         <a href="{{ path('user_index') }}"><button class="btn btn-ghost-primary mb-3"><< Back to list</button></a>
-        <div class="alert alert-primary mb-5" role="alert">
+        <div class="alert alert-primary m-auto col-8" role="alert">
             <div class="row justify-content-center">
                 <div class="col-4">
                     <a href="{{ path('user_edit', {'id': user.id}) }}"><button type="button" class="btn btn-ghost-primary btn-block btn-lg"><i class="cil-pencil"></i></button></a>
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container mt-5">
             <div class="col-8 m-auto border p-3 shadow-lg p-3 mb-5 bg-white rounded">
                 <h1 class="mb-5">User</h1>
 

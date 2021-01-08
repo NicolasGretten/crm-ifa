@@ -35,6 +35,16 @@ class CustomerFixtures extends Fixture
             $customer[$j]->setUpdatedAt(new DateTime);
             $manager->persist($customer[$j]);
         }
+
+        $customer = new Customer();
+        $customer->setFirstName('John');
+        $customer->setLastName('Doe');
+        $customer->setAccess(true);
+        $customer->setEmailAddress('john@doe.com');
+        $customer->setCreatedAt(new DateTime);
+        $customer->setUpdatedAt(new DateTime);
+        $manager->persist($customer);
+
         $manager->flush();
     }
 }

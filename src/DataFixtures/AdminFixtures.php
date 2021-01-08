@@ -17,13 +17,14 @@ class AdminFixtures extends Fixture
     {
         $this->passwordEncoder = $passwordEncoder;
     }
+
     public function load(ObjectManager $manager)
     {
         $admin = new User();
-        $admin->setEmail('ngretten@gmail.com');
+        $admin->setEmail('crm-ifa@yopmail.com');
         $admin->setPassword($this->passwordEncoder->encodePassword(
             $admin,
-            strtolower('nico')
+            strtolower('0000')
         ));
         $admin->setRoles(["ROLE_ADMIN"]);
         $admin->setCreatedAt(new DateTime());

@@ -69,7 +69,7 @@ class TicketController extends AbstractController
 
         return $this->render('ticket/show.html.twig', [
             'ticket' => $ticket,
-            'demand'=> $demand[0]
+            'demand' => $demand[0]
         ]);
     }
 
@@ -101,7 +101,7 @@ class TicketController extends AbstractController
      */
     public function delete(Request $request, Ticket $ticket): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ticket->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ticket->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ticket);
             $entityManager->flush();

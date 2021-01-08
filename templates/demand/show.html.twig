@@ -7,7 +7,7 @@
         <a href="{{ path('demand_index') }}">
             <button class="btn btn-ghost-primary mb-3"><< Back to list</button>
         </a>
-        <div class="alert alert-primary mb-5" role="alert">
+        <div class="alert alert-primary m-auto col-8" role="alert">
             <div class="row justify-content-center">
                 <div class="col-4">
                     <a href="{{ path('demand_admin_edit', {'id': demand.id}) }}">
@@ -28,7 +28,7 @@
         <a href="{{ path('home') }}">
             <button class="btn btn-ghost-primary mb-3"><< Back to list</button>
         </a>
-        <div class="alert alert-primary mb-5" role="alert">
+        <div class="alert alert-primary m-auto col-8" role="alert">
             <div class="row justify-content-center">
                 <div class="col-4">
                     <a href="{{ path('demand_edit', {'id': demand.id}) }}">
@@ -42,10 +42,9 @@
             </div>
         </div>
     {% endif %}
-    <div class="container mb-5">
+    <div class="container mt-5">
         <div class="col-8 m-auto border p-3 shadow-lg p-3 mb-5 bg-white rounded">
             <h1 class="mb-3">Demand</h1>
-
             <table class="table">
                 <tbody>
                 <tr>
@@ -78,8 +77,8 @@
                 </tr>
                 </tbody>
             </table>
-            <hr class="bg-primary">
             {% if is_granted('ROLE_ADMIN') %}
+                <hr class="bg-primary">
                 <h1 class="mb-3">User's demand informations</h1>
                 <table class="table">
                     <tbody>

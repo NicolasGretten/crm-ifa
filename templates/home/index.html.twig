@@ -50,11 +50,11 @@
     {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
         {% if demand_not_reviewed  is empty %}
-            <div class="alert alert-success" role="alert">
-                <div class="col-4 m-md-auto">
-                    <a href="{{ path('demand_index') }}"><button type="button" class="btn btn-outline-success btn-block btn-lg">It's calm here, no new demands !</button></a>
+                <div class="alert alert-success mt-5 mb-5" role="alert">
+                    <div class="col-4 m-md-auto">
+                        <a href="{{ path('demand_index') }}"><button type="button" class="btn btn-outline-success btn-block btn-lg">It's calm here, no new demands !</button></a>
+                    </div>
                 </div>
-            </div>
         {% else %}
             <div class="alert alert-danger" role="alert">
                 <div class="col-4 m-md-auto">
@@ -62,23 +62,21 @@
                 </div>
             </div>
         {% endif %}
-        <hr>
         <div class="row justify-content-center">
-            <div class="col-3 bg-info p-5 text-center m-3 border shadow-lg p-3 mb-5 rounded">
+            <div class="col-3 bg-info p-5 text-center m-3 shadow-lg p-3 mb-5 rounded">
                 <p >Number of demands</p>
                 <div class="h3"><i class="cil-envelope-closed"></i>  {{ all_demands|length }}</div>
             </div>
-            <div class="col-3 bg-info p-5 text-center m-3 border shadow-lg p-3 mb-5 rounded">
+            <div class="col-3 bg-info p-5 text-center m-3 shadow-lg p-3 mb-5 rounded">
                 <p>Number of customer</p>
                 <div class="h3"><i class="cil-user"></i> {{ customer|length }}</div>
             </div>
-            <div class="col-3 bg-info p-5 text-center m-3 border shadow-lg p-3 mb-5 rounded">
+            <div class="col-3 bg-info p-5 text-center m-3 shadow-lg p-3 mb-5 rounded">
                 <p>Number of companies</p>
                 <div class="h3"><i class="cil-building"></i> {{ companies|length }}</div>
             </div>
         </div>
-        <hr>
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info mt-5 mb-5" role="alert">
             <div class="col-4 m-md-auto">
                 <a href="{{ path('user_index') }}"><button type="button" class="btn btn-outline-info btn-block btn-lg">{{ user_since_january|length }} User registered this year !</button></a>
             </div>

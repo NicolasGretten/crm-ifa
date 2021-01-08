@@ -17,8 +17,7 @@ class CompanyType extends AbstractType
             ->add('city')
             ->add('zip_code')
             ->add('email_address')
-            ->add('phone_number')
-        ;
+            ->add('phone_number');
     }
 
     public function configureOptions(OptionsResolver $resolver)
