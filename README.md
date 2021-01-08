@@ -16,6 +16,7 @@ L'email du sender est à renseigner pour l'envoie des notifications.
 
 ## Fixtures
 
+Il faut load les fixtures pour pouvoir utiliser un compte admin.
 Au load des fixtures, la base de données aura comme données test : 
 - 5 entreprises 
 - 20 clients qui seront rattachés a une entreprise aléatoire et un client "test" qui n'appartiendra à aucune compagny
