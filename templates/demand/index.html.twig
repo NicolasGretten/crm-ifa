@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demand index{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    {% if is_granted('ROLE_USER') %}
+    <div class="alert alert-primary" role="alert">
+        <div class="col-4 m-md-auto">
+            <a href="{{ path('demand_new') }}"><button type="button" class="btn btn-ghost-primary btn-block btn-lg">Create new Demand</button></a>
+        </div>
+    </div>
+    {% endif %}
+    <h1 class="mb-5">Demand index</h1>
+
+    <table class="table table-light table-striped border shadow p-3 mb-5 bg-white rounded">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Content</th>
+                <th>Status</th>
+                <th>Email</th>
+                <th>Views</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th></th>
+                <th></th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for demand in demands %}
+            <tr>
+                <td>{{ demand.id }}</td>
+                <td>{{ demand.content }}</td>
+                <td>{{ demand.status }}</td>
+                <td>{{ demand.user.email }}</td>
+                <td>{{ demand.views ? 'Yes' : 'No' }}</td>
+                <td>{{ demand.createdAt ? demand.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                <td>{{ demand.updatedAt ? demand.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('demand_show', {'id': demand.id}) }}"><i class="cil-magnifying-glass"></i></a>
+                </td>
+                {% if is_granted('ROLE_USER') %}
+                    <td>
+                        <a href="{{ path('demand_edit', {'id': demand.id}) }}"><i class="cil-pencil"></i></a>
+                    </td>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+
+                    <td>
+                        <a href="{{ path('demand_admin_edit', {'id': demand.id}) }}"><i class="cil-pencil"></i></a>
+                    </td>
+                    <td>
+                        <a href="{{ path('ticket_new_from_demand', {'id': demand.id}) }}"><i class="cil-plus font-weight-bold"></i></a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

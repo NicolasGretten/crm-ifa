@@ -3,10 +3,79 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/coreui.min.css') }}">
+{#        <link rel="stylesheet" href="{{ asset('css/free.min.css') }}">#}
+{#        <link rel="stylesheet" href="{{ asset('css/brand.min.css') }}">#}
+{#        <link rel="stylesheet" href="{{ asset('css/flag.min.css') }}">#}
+        <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/brand.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/free.min.css">
         {% block stylesheets %}{% endblock %}
+        <style type="text/css">
+            a:hover {
+                text-decoration: none;
+            }
+        </style>
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="c-app">
+        <div class="c-sidebar-fixed bg-white border-right">
+            <div class="c-sidebar-nav-item">
+                <nav class="navbar">
+                    <ul class="nav flex-column">
+                        <li class="nav-item m-auto">
+                            <a class="nav-link active" href="/"><i class="cib-hubspot font-4xl"></i> </a>
+                        </li>
+                        <li class="nav-item m-auto">
+                            <a class="nav-link active" href="/"><i class="cil-home font-2xl"></i></a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item m-auto">
+                            <a class="nav-link" href="/company">Companies</a>
+                        </li>
+                        <li class="nav-item m-auto">
+                            <a class="nav-link" href="/customer">Customers</a>
+                        </li>
+                        <li class="nav-item m-auto">
+                            <a class="nav-link" href="/user">Users</a>
+                        </li>
+                        <li class="nav-item m-auto">
+                            <a class="nav-link" href="/demand">Demands</a>
+                        </li>
+                        <li class="nav-item m-auto">
+                            <a class="nav-link" href="/ticket">Tickets</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="c-wrapper">
+            <header class="c-header justify-content-end">
+                <div class="c-header">
+                    <ul class="c-header-nav ">
+                        {% if app.user %}
+                        Welcome, {{ app.user.username }}
+                        {% endif %}
+                        <li class="c-header-nav-item">
+                            {% if app.user %}
+                                <a class="nav-link active" href="/logout"> <i class="cil-user-unfollow"></i> logout</a>
+                            {% else %}
+                                <a class="nav-link active" href="/login"> <i class="cil-user"></i>Connexion</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <div class="c-body">
+                <main class="c-main container-fluid">
+                    {% block body %}{% endblock %}
+                </main>
+            </div>
+            <footer class="c-footer">
+                <!-- Footer content here -->
+            </footer>
+        </div>
+
         {% block javascripts %}{% endblock %}
+        <script src="{{ asset('js/coreui.bundle.min.js') }}"></script>
     </body>
 </html>

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Customer{% endblock %}
+
+{% block body %}
+    <a href="{{ path('customer_index') }}"><button class="btn btn-ghost-primary mb-3"><< Back to list</button></a>
+
+    <div class="container">
+        <div class="col-8 m-auto border p-3 shadow-lg p-5 mb-5 bg-white rounded">
+            <h1 class="mb-5">Create new Customer</h1>
+            {{ include('customer/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

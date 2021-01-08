@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome Home, country road{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_USER') %}
+        <div class="container-fluid">
+            <div class="alert alert-primary" role="alert">
+                <div class="col-4 m-md-auto">
+                    <a href="{{ path('demand_new') }}"><button type="button" class="btn btn-ghost-primary btn-block btn-lg">Create new Demand</button></a>
+                </div>
+            </div>
+            <h1 class="mb-5">My Demands</h1>
+
+            <table class="table table-light table-striped border shadow p-3 mb-5 bg-white rounded">
+                <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>Status</th>
+                    <th>Review by admin</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for demand in demands %}
+                    <tr>
+                        <td>{{ demand.content }}</td>
+                        <td>{{ demand.status }}</td>
+                        <td>{{ demand.views ? 'Yes' : 'No' }}</td>
+                        <td>{{ demand.createdAt ? demand.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                        <td>{{ demand.updatedAt ? demand.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                        <td>
+                            <a href="{{ path('demand_show', {'id': demand.id}) }}"><i class="cil-magnifying-glass"></i></a>
+                        </td>
+                        <td>
+                            <a href="{{ path('demand_edit', {'id': demand.id}) }}"><i class="cil-pencil"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {% if demand_not_reviewed  is empty %}
+                <div class="alert alert-success mt-5 mb-5" role="alert">
+                    <div class="col-4 m-md-auto">
+                        <a href="{{ path('demand_index') }}"><button type="button" class="btn btn-outline-success btn-block btn-lg">It's calm here, no new demands !</button></a>
+                    </div>
+                </div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                <div class="col-4 m-md-auto">
+                    <a href="{{ path('demand_index') }}"><button type="button" class="btn btn-outline-danger btn-block btn-lg">{{ demand_not_reviewed|length }} demand waiting !!!</button></a>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-3 bg-info p-5 text-center m-3 shadow-lg p-3 mb-5 rounded">
+                <p >Number of demands</p>
+                <div class="h3"><i class="cil-envelope-closed"></i>  {{ all_demands|length }}</div>
+            </div>
+            <div class="col-3 bg-info p-5 text-center m-3 shadow-lg p-3 mb-5 rounded">
+                <p>Number of customer</p>
+                <div class="h3"><i class="cil-user"></i> {{ customer|length }}</div>
+            </div>
+            <div class="col-3 bg-info p-5 text-center m-3 shadow-lg p-3 mb-5 rounded">
+                <p>Number of companies</p>
+                <div class="h3"><i class="cil-building"></i> {{ companies|length }}</div>
+            </div>
+        </div>
+        <div class="alert alert-info mt-5 mb-5" role="alert">
+            <div class="col-4 m-md-auto">
+                <a href="{{ path('user_index') }}"><button type="button" class="btn btn-outline-info btn-block btn-lg">{{ user_since_january|length }} User registered this year !</button></a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

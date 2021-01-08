@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Company index{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="alert alert-primary" role="alert">
+            <div class="col-4 m-md-auto">
+                <a href="{{ path('company_new') }}"><button type="button" class="btn btn-ghost-primary btn-block btn-lg">Create new company</button></a>
+            </div>
+        </div>
+        <h1 class="mb-5">Companies</h1>
+        <table class="table table-light table-striped border shadow p-3 mb-5 bg-white rounded">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Company name</th>
+                    <th>Address</th>
+                    <th>Email address</th>
+                    <th>Phone number</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for company in companies %}
+                <tr>
+                    <td>{{ company.id }}</td>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.Address }}, {{ company.zipCode }} {{ company.city }}</td>
+                    <td>{{ company.emailAddress }}</td>
+                    <td>{{ company.phoneNumber }}</td>
+                    <td>
+                        <a href="{{ path('company_show', {'id': company.id}) }}"><i class="cil-magnifying-glass"></i></a>
+                    </td>
+                    <td>
+                        <a href="{{ path('company_edit', {'id': company.id}) }}"><i class="cil-pencil"></i> </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
