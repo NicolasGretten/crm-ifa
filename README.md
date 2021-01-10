@@ -14,15 +14,24 @@ Pour comprendre et mettre en place l'envoie d'e-mail avec une adresse gmail pers
 
 L'email du sender est à renseigner pour l'envoie des notifications.
 
-## Fixtures
+Une fois les variables d'environnement renseigner vous pouvez renommer le fichier .env en .env.locale pour finir la configuration.
 
-Il faut load les fixtures pour pouvoir utiliser un compte admin.
+## DEV
+
+En environnement de dev on peu utiliser les fixtures pour tester le CRM.
 Au load des fixtures, la base de données aura comme données test : 
 - 5 entreprises 
 - 20 clients qui seront rattachés a une entreprise aléatoire et un client "test" qui n'appartiendra à aucune compagny
 - 1 admin avec une adresse e-mail(crm-ifa@yopmail.com) et un mot de passe (0000)
 - 1 compte utilisateurs qui est le client "test' : john@doe.com, mot de passe : john.doe
 - 1 demande effectuer par le compte utilisateur test
+
+## PROD
+
+En production pour pouvoir se connecter au site il est nécessaire de créer un compte admin, pour cela il est possible d'utiliser la commande suivante :
+php bin/console app:create-admin example@gmail.com examplepassword
+
+Une fois cette commande effectuée, vous pourrez vous connecter et utiliser le CRM.
 
 ## Fonctionnalités
 
@@ -37,3 +46,17 @@ Au load des fixtures, la base de données aura comme données test :
 - Listener pour rediriger vers la page d'accueil lorsque qu'une AccessDeniedexception est Throw
 - Envoi d'e-mails a la création de la demande sur l'adresse e-mail de l'admin (crm-ifa@yopmail.com) consultable sur Yopmail.com
 - Notification des demandes sur la page d'accueil pour l'administrateur, il doit changer leurs status pour pouvoir enlever la notification et informer l'utilisateur que sa demande a été vu par un admin en mettant à jour la colonne Views de No à Yes
+
+## Procédure
+
+- Cloner le projet dans le dossier souhaitais.
+- composer install
+- npm install
+- yarn install
+- php bin/console doctrine:database:create
+- php bin/console doctrine:migrations:migrate
+- php bin/console app:create-admin example@gmail.com examplepassword (environnement de production)
+- php bin/console doctrine:fixtures:load (environnement de développement)
+- yarn encore production (environnement de production)
+- yarn encore dev (environnement de développement)
+- symfony server:start
