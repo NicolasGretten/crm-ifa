@@ -49,7 +49,7 @@ Une fois cette commande effectuée, vous pourrez vous connecter et utiliser le C
 
 ## Procédure
 
-- Cloner le projet dans le dossier souhaitais.
+- Cloner le projet dans le dossier souhaité.
 - composer install
 - npm install
 - yarn install
